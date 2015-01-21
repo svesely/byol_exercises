@@ -17,6 +17,8 @@ char* readline( char* prompt ) {
 void add_history( char* unused ) {
   /* no op */
 }
+#elif __APPLE__
+ /* the programmer likes apples */
 
 #endif
 
