@@ -1,11 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <editline/readline.h>
-#include <editline/history.h>
+#ifdef _win32
+#include <string.h>
+static char buffer[2048];
+char* readline( char* prompt ) {
+  fputs( prompt, stdout );
+  fgets( buffer, 2048, stdin );
 
-/* declare a buffer for user input of size 2048 */
-static char input[2048];
+  char* cpy = malloc( strlen( buffer ) + 1 );
+  strcpy( cpy, buffer );
+  cpy[ strlen(cpy) -1 ] = "\0";
+  return cpy;
+}
+
+void add_history( char* unused ) {
+  /* no op */
+}
+
+#endif
+
+#include <editline/readline.h>
+
+char* answer = "Thanks for saying \"%s\"\n\n";
 
 int main( int argc, char** argv ) {
   puts( "Lispy Version 0.0.0.0.1" );
@@ -14,7 +31,7 @@ int main( int argc, char** argv ) {
   while( 1 ) {
     char* input = readline( "vesopolisp> ");
     add_history( input );
-    printf( "No, you're a %s", input);
+    printf( answer , input );
     free( input );
   }
   return 0;
