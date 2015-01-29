@@ -16,9 +16,14 @@ long eval_op(long x, char* op, long y) {
 long eval( mpc_ast_t* t) {
   if (strstr( t->tag, "number")) {
     return atoi(t->contents);
+
   }
   char* op = t->children[1]->contents;
   long x = eval( t->children[2]);
+
+  if (strcmp(op, "-") == 0 && t->children_num == 4) {
+    return 0 - x;
+  }
 
   int i = 3;
   while(strstr(t->children[i]->tag, "expr")){
